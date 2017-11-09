@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DipSA45Team12aLibModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookCatalogues">
+          <Key>
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="ISBN" Type="float" Nullable="false" />
+          <Property Name="BookTitle" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StockInLibrary" Type="int" Nullable="false" />
+          <Property Name="NumberOnLoan" Type="int" Nullable="false" />
+          <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="YearOfPublication" Type="datetime" Nullable="false" />
+          <Property Name="Publisher" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CallNumber" Type="varchar(max)" Nullable="false" />
+          <Property Name="ShelfNumber" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookInfo">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="float" Nullable="false" />
+          <Property Name="BookTitle" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ISBN" Type="float" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="LoanTrans">
+          <Key>
+            <PropertyRef Name="TransID" />
+          </Key>
+          <Property Name="TransID" Type="int" Nullable="false" />
+          <Property Name="MemberID" Type="nchar" MaxLength="9" />
+          <Property Name="NumberOfBooks" Type="int" />
+        </EntityType>
+        <EntityType Name="Members">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="nchar" MaxLength="9" Nullable="false" />
+          <Property Name="ContactTitle" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MemberCategory" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
+          <Property Name="PhoneNumber" Type="int" />
+          <Property Name="EmailAddress" Type="nvarchar(max)" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Memberships">
+          <Key>
+            <PropertyRef Name="MemberCategory" />
+          </Key>
+          <Property Name="MemberCategory" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LoanQuota" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransDetails">
+          <Key>
+            <PropertyRef Name="Sn" />
+          </Key>
+          <Property Name="Sn" Type="int" Nullable="false" />
+          <Property Name="TransID" Type="int" Nullable="false" />
+          <Property Name="BookID" Type="float" Nullable="false" />
+          <Property Name="LoanDate" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="ReturnDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_BookID_ToBookInfo">
+          <End Role="BookInfo" Type="Self.BookInfo" Multiplicity="1" />
+          <End Role="TransDetails" Type="Self.TransDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookInfo">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="TransDetails">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ISBN_ToBookInventories">
+          <End Role="BookCatalogues" Type="Self.BookCatalogues" Multiplicity="1" />
+          <End Role="BookInfo" Type="Self.BookInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookCatalogues">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="BookInfo">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberID_ToMemberInfo">
+          <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+          <End Role="LoanTrans" Type="Self.LoanTrans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="LoanTrans">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Memberships_MemberCategory">
+          <End Role="Memberships" Type="Self.Memberships" Multiplicity="1" />
+          <End Role="Members" Type="Self.Members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memberships">
+              <PropertyRef Name="MemberCategory" />
+            </Principal>
+            <Dependent Role="Members">
+              <PropertyRef Name="MemberCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransID_ToLoanTrans">
+          <End Role="LoanTrans" Type="Self.LoanTrans" Multiplicity="1" />
+          <End Role="TransDetails" Type="Self.TransDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoanTrans">
+              <PropertyRef Name="TransID" />
+            </Principal>
+            <Dependent Role="TransDetails">
+              <PropertyRef Name="TransID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DipSA45Team12aLibModelStoreContainer">
+          <EntitySet Name="BookCatalogues" EntityType="Self.BookCatalogues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookInfo" EntityType="Self.BookInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoanTrans" EntityType="Self.LoanTrans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransDetails" EntityType="Self.TransDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BookID_ToBookInfo" Association="Self.FK_BookID_ToBookInfo">
+            <End Role="BookInfo" EntitySet="BookInfo" />
+            <End Role="TransDetails" EntitySet="TransDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ISBN_ToBookInventories" Association="Self.FK_ISBN_ToBookInventories">
+            <End Role="BookCatalogues" EntitySet="BookCatalogues" />
+            <End Role="BookInfo" EntitySet="BookInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberID_ToMemberInfo" Association="Self.FK_MemberID_ToMemberInfo">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="LoanTrans" EntitySet="LoanTrans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Memberships_MemberCategory" Association="Self.FK_Memberships_MemberCategory">
+            <End Role="Memberships" EntitySet="Memberships" />
+            <End Role="Members" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransID_ToLoanTrans" Association="Self.FK_TransID_ToLoanTrans">
+            <End Role="LoanTrans" EntitySet="LoanTrans" />
+            <End Role="TransDetails" EntitySet="TransDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DipSA45Team12aLibModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookCatalogue">
+          <Key>
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="ISBN" Type="Double" Nullable="false" />
+          <Property Name="BookTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StockInLibrary" Type="Int32" Nullable="false" />
+          <Property Name="NumberOnLoan" Type="Int32" Nullable="false" />
+          <Property Name="Author" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="YearOfPublication" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Publisher" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CallNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShelfNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BookInfoes" Relationship="Self.FK_ISBN_ToBookInventories" FromRole="BookCatalogues" ToRole="BookInfo" />
+        </EntityType>
+        <EntityType Name="BookInfo">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="Double" Nullable="false" />
+          <Property Name="BookTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ISBN" Type="Double" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BookCatalogue" Relationship="Self.FK_ISBN_ToBookInventories" FromRole="BookInfo" ToRole="BookCatalogues" />
+          <NavigationProperty Name="TransDetails" Relationship="Self.FK_BookID_ToBookInfo" FromRole="BookInfo" ToRole="TransDetails" />
+        </EntityType>
+        <EntityType Name="LoanTran">
+          <Key>
+            <PropertyRef Name="TransID" />
+          </Key>
+          <Property Name="TransID" Type="Int32" Nullable="false" />
+          <Property Name="MemberID" Type="String" MaxLength="9" FixedLength="true" Unicode="true" />
+          <Property Name="NumberOfBooks" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberID_ToMemberInfo" FromRole="LoanTrans" ToRole="Members" />
+          <NavigationProperty Name="TransDetails" Relationship="Self.FK_TransID_ToLoanTrans" FromRole="LoanTrans" ToRole="TransDetails" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="String" MaxLength="9" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ContactTitle" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MemberCategory" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PhoneNumber" Type="Int32" />
+          <Property Name="EmailAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LoanTrans" Relationship="Self.FK_MemberID_ToMemberInfo" FromRole="Members" ToRole="LoanTrans" />
+          <NavigationProperty Name="Membership" Relationship="Self.FK_Memberships_MemberCategory" FromRole="Members" ToRole="Memberships" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="MemberCategory" />
+          </Key>
+          <Property Name="MemberCategory" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LoanQuota" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Memberships_MemberCategory" FromRole="Memberships" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="TransDetail">
+          <Key>
+            <PropertyRef Name="Sn" />
+          </Key>
+          <Property Name="Sn" Type="Int32" Nullable="false" />
+          <Property Name="TransID" Type="Int32" Nullable="false" />
+          <Property Name="BookID" Type="Double" Nullable="false" />
+          <Property Name="LoanDate" Type="DateTime" Precision="3" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BookInfo" Relationship="Self.FK_BookID_ToBookInfo" FromRole="TransDetails" ToRole="BookInfo" />
+          <NavigationProperty Name="LoanTran" Relationship="Self.FK_TransID_ToLoanTrans" FromRole="TransDetails" ToRole="LoanTrans" />
+        </EntityType>
+        <Association Name="FK_ISBN_ToBookInventories">
+          <End Role="BookCatalogues" Type="Self.BookCatalogue" Multiplicity="1" />
+          <End Role="BookInfo" Type="Self.BookInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookCatalogues">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="BookInfo">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookID_ToBookInfo">
+          <End Role="BookInfo" Type="Self.BookInfo" Multiplicity="1" />
+          <End Role="TransDetails" Type="Self.TransDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookInfo">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="TransDetails">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberID_ToMemberInfo">
+          <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="LoanTrans" Type="Self.LoanTran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="LoanTrans">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransID_ToLoanTrans">
+          <End Role="LoanTrans" Type="Self.LoanTran" Multiplicity="1" />
+          <End Role="TransDetails" Type="Self.TransDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoanTrans">
+              <PropertyRef Name="TransID" />
+            </Principal>
+            <Dependent Role="TransDetails">
+              <PropertyRef Name="TransID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Memberships_MemberCategory">
+          <End Role="Memberships" Type="Self.Membership" Multiplicity="1" />
+          <End Role="Members" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Memberships">
+              <PropertyRef Name="MemberCategory" />
+            </Principal>
+            <Dependent Role="Members">
+              <PropertyRef Name="MemberCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DipSA45Team12aLibEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookCatalogues" EntityType="Self.BookCatalogue" />
+          <EntitySet Name="BookInfoes" EntityType="Self.BookInfo" />
+          <EntitySet Name="LoanTrans" EntityType="Self.LoanTran" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Memberships" EntityType="Self.Membership" />
+          <EntitySet Name="TransDetails" EntityType="Self.TransDetail" />
+          <AssociationSet Name="FK_ISBN_ToBookInventories" Association="Self.FK_ISBN_ToBookInventories">
+            <End Role="BookCatalogues" EntitySet="BookCatalogues" />
+            <End Role="BookInfo" EntitySet="BookInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookID_ToBookInfo" Association="Self.FK_BookID_ToBookInfo">
+            <End Role="BookInfo" EntitySet="BookInfoes" />
+            <End Role="TransDetails" EntitySet="TransDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberID_ToMemberInfo" Association="Self.FK_MemberID_ToMemberInfo">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="LoanTrans" EntitySet="LoanTrans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransID_ToLoanTrans" Association="Self.FK_TransID_ToLoanTrans">
+            <End Role="LoanTrans" EntitySet="LoanTrans" />
+            <End Role="TransDetails" EntitySet="TransDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Memberships_MemberCategory" Association="Self.FK_Memberships_MemberCategory">
+            <End Role="Memberships" EntitySet="Memberships" />
+            <End Role="Members" EntitySet="Members" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DipSA45Team12aLibModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DipSA45Team12aLibModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="printReceipt" ReturnType="Collection(DipSA45Team12aLibModel.printReceipt_Result)">
+          <Parameter Name="transID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="printReceipt_Result">
+          <Property Type="String" Name="MemberID" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="MemberCategory" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="BookTitle" Nullable="false" />
+          <Property Type="Double" Name="BookID" Nullable="false" />
+          <Property Type="DateTime" Name="DueDate" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DipSA45Team12aLibModelStoreContainer" CdmEntityContainer="DipSA45Team12aLibEntities">
+          <EntitySetMapping Name="BookCatalogues">
+            <EntityTypeMapping TypeName="DipSA45Team12aLibModel.BookCatalogue">
+              <MappingFragment StoreEntitySet="BookCatalogues">
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="BookTitle" ColumnName="BookTitle" />
+                <ScalarProperty Name="StockInLibrary" ColumnName="StockInLibrary" />
+                <ScalarProperty Name="NumberOnLoan" ColumnName="NumberOnLoan" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="YearOfPublication" ColumnName="YearOfPublication" />
+                <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CallNumber" ColumnName="CallNumber" />
+                <ScalarProperty Name="ShelfNumber" ColumnName="ShelfNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookInfoes">
+            <EntityTypeMapping TypeName="DipSA45Team12aLibModel.BookInfo">
+              <MappingFragment StoreEntitySet="BookInfo">
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="BookTitle" ColumnName="BookTitle" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoanTrans">
+            <EntityTypeMapping TypeName="DipSA45Team12aLibModel.LoanTran">
+              <MappingFragment StoreEntitySet="LoanTrans">
+                <ScalarProperty Name="TransID" ColumnName="TransID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="NumberOfBooks" ColumnName="NumberOfBooks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="DipSA45Team12aLibModel.Member">
+              <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MemberCategory" ColumnName="MemberCategory" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="DipSA45Team12aLibModel.Membership">
+              <MappingFragment StoreEntitySet="Memberships">
+                <ScalarProperty Name="MemberCategory" ColumnName="MemberCategory" />
+                <ScalarProperty Name="LoanQuota" ColumnName="LoanQuota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransDetails">
+            <EntityTypeMapping TypeName="DipSA45Team12aLibModel.TransDetail">
+              <MappingFragment StoreEntitySet="TransDetails">
+                <ScalarProperty Name="Sn" ColumnName="Sn" />
+                <ScalarProperty Name="TransID" ColumnName="TransID" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="LoanDate" ColumnName="LoanDate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DipSA45Team12aLibModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DipSA45Team12aLibModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DipSA45Team12aLibModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DipSA45Team12aLibModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DipSA45Team12aLibModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DipSA45Team12aLibModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DipSA45Team12aLibModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DipSA45Team12aLibModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DipSA45Team12aLibModel.Store.sp_upgraddiagrams" />
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

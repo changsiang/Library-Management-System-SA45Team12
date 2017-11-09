@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Frequently Asked Question
+
+*How to create a new member?
+ 	1.Select  &lt;Create a new member&gt;from the &lt;Members&gt;button.
+         	2.Create a new ID for the member.
+         	3.import the personal details about the member. (such as Name, Address, Contact Number and so on).
+         	4.Click the button “Create a new member”.
+
+
+*How to search or update existing member?
+	1.Select &lt;Search/update existing member&gt; from the &lt;Member&gt;button.
+        	2.Choose which way do you prefer to use(Name, Phone Number or Member ID).
+        	3.If you want to update, click the “Update Member Information” button, then edit the information and save change or set the member.
+
+*How to manage member category?
+	1.Select&lt;Manage Member Category&gt;from the &lt;Member&gt;button.
+       	2.Choose the member category(Undergraduate ,graduate and staff).
+       	3.Key in a number as new loan quota.
+       	4.Click “Submit”.
+
+
+*How to add new books?
+	1.Select &lt;Add new books&gt;form the &lt;Book&gt;button.
+	2 .Key in book details, classification, book location and status.
+	3.Click”Upload”.
+
+*How to update the book information?
+	1.Select &lt;Update the book information&gt;from the &lt;Book&gt; button.
+        	2.Edit the information.
+        	3.Click”Upload”.
+
+*How to search for books?
+ 	1.Select&lt;Search for books&gt;from the &lt;Book&gt;button.
+        	2.Import the title and author of the book and choose the type and subject.
+        	3.Select whether you want to add or edit.
+
+*About the Availability of loaned books:
+	 YOU have two options to search(Book ID or Book Title)and view the all books currently on loan.
+
+*How to delete the books?
+	1.Select&lt;Delete book from library&gt;from the &lt;Book&gt;button.
+       	2.Key in the Book ID and click ”Retrieve”.
+       	3.Write the remarks if you like and finally click the “Delete”button.
+
+*About Transactions(loan and return)
+Loan	
+	1.Select&lt;loan&gt;from the &lt;Transactions&gt;button.
+     	2.Key in the member information and click retrieve
+     	3.Key in Book ID and retrieve the book information to view the status of the book.
+
+Return:
+	1.Select&lt;return&gt;from the &lt;Transactions&gt;button.
+      	2.Key in Book ID and retrieve the member information ,book information and return date.
+	3. Click "Return" to process the return of the book.
+
+*About Reports:
+
+	1.Book List Report: It contains the information of all the books which stock in the library.
+	2.Transaction Report: List the loan all transactions.
+	3.Cross tab Report: It illustrates the status of the percentage of books on loan based on subject.
+	4.Member Category Ratio: Display a pie chart about the ratio of the Member Category.
+
+	</value>
+  </data>
+</root>
